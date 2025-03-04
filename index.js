@@ -37,6 +37,11 @@ app.post('/games', (request, response) => {
         title,
         genre
     }
+
+    if (!title || !genre) {
+        return response.status(404).json('Le titre et le genre sont obligatoires');
+    }
+
     games.push(newGame)
     return response.status(201).json(newGame)
 })
