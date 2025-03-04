@@ -1,9 +1,13 @@
-import express from 'express'
+import express, { request, response } from 'express'
 
 import games from './data/games.js'
 
 const app = express()
 const port = 3000
+
+app.use(express.json())
+app.use(express.urlencoded({extended : true}))
+
 
 
 app.get('/', (request, response) => {
@@ -24,6 +28,17 @@ app.get('/games/:id', (request, response) => {
     }
 
     return response.status(200).json(gameByID)
+})
+
+app.post('/games', (request, response) => {
+    const {title, genre} = request.body
+    const newGame = {
+        id : games.length + 1,
+        title,
+        genre
+    }
+    games.push(newGame)
+    return response.status(201).json(newGame)
 })
 
 app.listen(port, () => {
